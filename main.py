@@ -4,14 +4,22 @@ Studyer
 By: Lucas Hagel
 Started 8/29/16
 
-Since I'm in school, this is an app to help me study more effectively
-which is another word for less
+Since I'm in school, this is an app to help me study "more effectively"
+which is another way of saying "less"
 
-For now this is a non working app with set of working code parts to be combined once I learn how to use Django, I may decide not to use it.
-
+For now this is a non working app with set of working code parts to be combined once I learn how to use Django,
+I may decide not to use it.
 
 Features To Do:
 [all of them]
+
+UI
+this will be on a Django driven webpage
+
+QUESTION ANSWER HEURISTICS
+we're going to learn to predict the answers based on as many tests as we can think of
+these test results will go to a neural network then presumably...
+it'll feel pretty accurate
 
 QUIZ
 getting close enough to the right answer function
@@ -142,7 +150,7 @@ def doQuiz(questionAnswerDict):
             aSecondTime = time.time()
             print("It toook " + "%.02f" % (aSecondTime-now) + " to enter the answer")
 
-
-
 if __name__=='__main__':
     wordNetSimilarityTest()
+
+
