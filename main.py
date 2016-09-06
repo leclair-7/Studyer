@@ -232,4 +232,5 @@ if __name__ == '__main__':
     hammingDistance( userAnswer, correctAnswer  )
     lemmalist("brain")
     '''
-    putInQuizResultsInFile(doQuiz(fauxQA) )
+
+    putInQuizResultsInFile( doQuiz(fauxQA) )

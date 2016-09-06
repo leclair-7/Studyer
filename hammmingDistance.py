@@ -9,17 +9,20 @@ def lengthNormalizer(s1, s2):
     else:
         didswap = False
         while len(s1) != len(s2):
+            #print(s1,s2)
             if len(s1) > len(s2):
                 toExtend = len(s1) - len(s2)
                 for i in range(toExtend):
                     # because who the hell
                     # answers a quiz with _?
                     s2 = s2 + "_"
+                return s1,s2
             else:
                 didswap = True
                 t = s2
                 s2 = s1
                 s1 = t
+
         if didswap:
             t = s2
             s2 = s1
@@ -36,13 +39,15 @@ def hammingDistance(s1, s2):
     string :param s2: 
     float :return: Hamming Distance
     '''
-    s1,s2 = s1.lower(),s1.lower()
 
+    s1,s2 = s1.lower(),s2.lower()
     baseNum = max(len(s1), len(s2))
     right, wrong = 0, 0
 
     if len(s1) != len(s2):
         s1,s2 = lengthNormalizer(s1, s2)
+    assert len(s1) is len(s2), "word lengths don't match, dumbass"
+    print(s1,s2)
 
     if len(s1) == len(s2) and len(s1) > 0:
         for i in range(len(s1)):
@@ -51,10 +56,16 @@ def hammingDistance(s1, s2):
             else:
                 right += 1
     if baseNum < .00001:
-        baseNum  =1
+        baseNum  = 1
+        return 0
     return (right * 1.0) / baseNum
 
 
 if __name__ == '__main__':
-    print(hammingDistance("rucas hasdfdsfel", "rucas hagel"))
+    print(lengthNormalizer("rucas hafasdfdsfel", "rucas hagel"))
+    print(lengthNormalizer("birds", "tree"))
+
+    print( hammingDistance("birds","foxes"))
+
+
 
