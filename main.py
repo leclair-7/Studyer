@@ -7,7 +7,7 @@ Started 8/29/16
 Since I'm in school, this is an app to help me study "more effectively"
 which is another way of saying "less"
 
-Since this is for a good time with a focus on good, the documentation
+Since this project is for a good time with a focus on good, the documentation
 has an air of irony or a lack of seriousness, etc.
 
 For now this is a non working app with set of working code parts
@@ -25,16 +25,16 @@ this will be on a Django driven webpage
 
 QUESTION ANSWER HEURISTICS
 
-WAnt the neural network to see the size of the vector and construct itself accordingly,
+Want the neural network to see the size of the vector and construct itself accordingly,
 maybe do a binary search style parameter finding..
 
 we're going to learn to predict the answers based on as many tests as we can think of
 these test results will go to a neural network then presumably...
-it'll feel pretty accurate
+it'll feel pretty accurate to me the user
 
 QUIZ
 getting close enough to the right answer function
-put question answer time in erformance,
+put question answer time in performance,
 when the user doesn't get a close answer, have a hint
 
     ideas for criteria for answer being right:
@@ -49,27 +49,11 @@ f it  -A A
 REMEMBERING YOUR PAST
 take tab spaces words from a txt file and make flashcards
 
-input file:
-    -scan file to decide what the hell kind it is
-    -take in either tab spaced
-    -word then '-' then definition
-    -word then paragraph
-
 Memory 100 peg list helper, make it make crazy associations based on nouns not being on top 10000 english used
 but also being syntactically close to current noun and the one associated with the number
 
 ambiguity is an issue though
 '''
-
-'''
-import time
-from gensim.models import Word2Vec
-model = Word2Vec.load()
-model.similarity('apple', 'orange')
-'''
-
-modes = ["wordToDefinition", "definitionToWord", "createRelation"]
-mode = "wordToDefinition"
 
 questionAnswerDict = {"route flapping": "neighbors to switch to new routes and advertise them to their neighbor",
                       "BGP Wedgie": "ability of Charlie to force a BGP session reset can allow the configuration" + \
@@ -80,7 +64,6 @@ from nltk.corpus import wordnet as wn
 import time
 from hammmingDistance import *
 import timeQuestionAnswering
-
 
 def wordNetSimilarityTest(userAnswer, correctAnswer):
     assert userAnswer != "", "empty user answer"
@@ -108,7 +91,9 @@ def lemmalist(str):
 
 '''
 here is a test question and answer simple, word association to make
-fake data to test subsystems
+fake data to test quiz answering subsystems
+
+we only used 1 word things because word similarity function blows up
 '''
 fauxQA = {
     "MAC check": "Integrity",
@@ -188,5 +173,4 @@ if __name__ == '__main__':
     hammingDistance( userAnswer, correctAnswer  )
     lemmalist("brain")
     '''
-
     putInQuizResultsInFile( doQuiz(fauxQA) )

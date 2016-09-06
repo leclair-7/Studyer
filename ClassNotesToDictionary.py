@@ -4,22 +4,13 @@ to be put into a file
 
 To Implement:
 	- make this work on the line level instead of the file level
-	- modularity
 
-this is to generate flash cards, 
-
-steps
-	1 detect whichone
-			-term '\t' def
-			-term '-' def
-			-term '\n' def (like a title with paragraph under it)
-			-term ':' def
-						
-	2 what to do ith each
+this is to generate flash cards
 '''
 
 def fileDecider(filename):
 	'''
+	Auxiliary function that decides the format of the class notes file
 
 	fileDecider will return 0 for term '\t' definition
 					 return 1 for term '-' definition
@@ -46,10 +37,29 @@ def fileDecider(filename):
 				else:
 					continue
 			print(line)
-			
+
+def everyOtherInListToDict(h):
+	'''
+	makes successive list elements key-value pairs of a dictionary
+	returns the corresponding dictionary
+
+	if we have a list, h = [1,2,3,4]
+	returns dictionary: {1:2, 3:4}
+	'''
+
+	assert len(h) % 2 == 0, "need 1-1 term to definition/description ratio for this to work"
+	aDict = {}
+	for i in range( int(len(h)/2)):
+		index = i * 2
+		aDict[h[index].strip() ] = h[index+1].strip()	
+		if index > len(h)-1:
+			break
+	return aDict
+
 def termThenTab(filename, selectorNum):
 	'''
-	@param num
+	@param filename - name of the class Notes file
+	@param selectorNum the type of Notes file (format of class notes)
 	'''
 	aDict = {}
 	notesDelimiter = '\t'
@@ -66,17 +76,9 @@ def termThenTab(filename, selectorNum):
 
 	if selectorNum ==3:
 		with open(filename, 'r') as myfile:
-			h = myfile.readlines()		
+			h = myfile.readlines()	
 
-		assert len(h) % 2 == 0, "need 1-1 term to definition/description ratio for this to work"
-
-		for i in range( int(len(h)/2)):
-			index = i * 2
-			aDict[h[index].strip() ] = h[index+1].strip()	
-			if index > len(h)-1:
-				break	
-
-		return aDict	
+		return everyOtherInListToDict(h)	
 
 	with open(filename,'r') as ofo:
 		for line in ofo:
@@ -94,21 +96,6 @@ if __name__=='__main__':
 	#s1 = "and	then......then..."
 	
 	#print(termThenTab("tabspaced.txt", fileDecider("tabspaced.txt")) )
-	
-	#this one doesn't work
 	print(termThenTab("termparagraphTEST.txt", fileDecider("termparagraphTEST.txt")) )
-	'''
-	with open("termparagraphTEST.txt",'r') as ofo:
-		for line in ofo:
-			for i in line:
-				if i == '\n':
-					print("newline")
-				else:
-					print(i)
-	
-	with open('termparagraphTEST.txt', 'r') as myfile:
-		lalista = myfile.readlines()
-	print(len(lalista))
-	'''
 	#print(termThenTab("termdashTEST.txt", fileDecider("termdashTEST.txt")) )
 	#print(termThenTab("colonthendefTEST.txt", fileDecider("colonthendefTEST.txt")) )
