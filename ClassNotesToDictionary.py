@@ -20,9 +20,11 @@ steps
 
 def fileDecider(filename):
 	'''
-	fileDecider will return 0 for
-					 return 1 for
-					 return 2 for
+
+	fileDecider will return 0 for term '\t' definition
+					 return 1 for term '-' definition
+					 return 2 for term ':' definition
+					 return 3 for term '\n' definition
 	'''
 	with open(filename,'r') as ofo:
 		for line in ofo:
@@ -60,7 +62,22 @@ def termThenTab(filename, selectorNum):
 		notesDelimiter = ':'
 	elif selectorNum == 3:
 		notesDelimiter = '\n'
-	
+	print(selectorNum)
+
+	if selectorNum ==3:
+		with open(filename, 'r') as myfile:
+			h = myfile.readlines()		
+
+		assert len(h) % 2 == 0, "need 1-1 term to definition/description ratio for this to work"
+
+		for i in range( int(len(h)/2)):
+			index = i * 2
+			aDict[h[index].strip() ] = h[index+1].strip()	
+			if index > len(h)-1:
+				break	
+
+		return aDict	
+
 	with open(filename,'r') as ofo:
 		for line in ofo:
 			if line == '\n':
@@ -79,13 +96,19 @@ if __name__=='__main__':
 	#print(termThenTab("tabspaced.txt", fileDecider("tabspaced.txt")) )
 	
 	#this one doesn't work
-	#print(termThenTab("termparagraph.txt", fileDecider("termparagraph.txt")) )
-	
-	with open("termparagraph.txt",'r') as ofo:
+	print(termThenTab("termparagraphTEST.txt", fileDecider("termparagraphTEST.txt")) )
+	'''
+	with open("termparagraphTEST.txt",'r') as ofo:
 		for line in ofo:
 			for i in line:
 				if i == '\n':
-					print("!")
-
-	#print(termThenTab("termdash.txt", fileDecider("termdash.txt")) )
-	#print(termThenTab("colonthendef.txt", fileDecider("colonthendef.txt")) )
+					print("newline")
+				else:
+					print(i)
+	
+	with open('termparagraphTEST.txt', 'r') as myfile:
+		lalista = myfile.readlines()
+	print(len(lalista))
+	'''
+	#print(termThenTab("termdashTEST.txt", fileDecider("termdashTEST.txt")) )
+	#print(termThenTab("colonthendefTEST.txt", fileDecider("colonthendefTEST.txt")) )
