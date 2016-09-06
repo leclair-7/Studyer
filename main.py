@@ -4,6 +4,17 @@ Studyer
 By: Lucas Hagel
 Started 8/29/16
 
+ideas on what to do next:
+POS tag the sentence and see if any of answer's noun is in lemmalist
+PEG 100 list implement an all numerical metrics flashcard learning
+session by session pickling remembering, cpickle for speed
+feed it a notes file then it gives learning, diaplaying pictues on django site,
+unit tests for every function, code coverage
+learn Django and put an SSH to Alderon login
+find a thesaurus for hints, like dict = {word : [synonyms] }
+learning mode and test mode and an easy switch between them
+
+
 Since I'm in school, this is an app to help me study "more effectively"
 which is another way of saying "less"
 
