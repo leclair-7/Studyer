@@ -7,6 +7,9 @@ Started 8/29/16
 Since I'm in school, this is an app to help me study "more effectively"
 which is another way of saying "less"
 
+Since this is for a good time with a focus on good, the documentation
+has an air of irony or a lack of seriousness, etc.
+
 For now this is a non working app with set of working code parts to be combined once I learn how to use Django,
 I may decide not to use it.
 
@@ -17,6 +20,10 @@ UI
 this will be on a Django driven webpage
 
 QUESTION ANSWER HEURISTICS
+
+WAnt the neural network to see the size of the vector and construct itself accordingly,
+maybe do a binary search style parameter finding..
+
 we're going to learn to predict the answers based on as many tests as we can think of
 these test results will go to a neural network then presumably...
 it'll feel pretty accurate
@@ -64,15 +71,18 @@ questionAnswerDict = {"route flapping": "neighbors to switch to new routes and a
                       "BGP Wedgie": "ability of Charlie to force a BGP session reset can allow the configuration" + \
                                     " of Alice or Bob to transition into a stable but undesired forwarding state"}
 
-
-
 # a first step to question answering logic
 from nltk.corpus import wordnet as wn
 import time
-import hammmingDistance
+from hammmingDistance import *
 import timeQuestionAnswering
 
-def wordNetSimilarityTest():
+
+def wordNetSimilarityTest(userAnswer, correctAnswer):
+    assert userAnswer != "", "empty user answer"
+    assert correctAnswer != "", "Empty right answer, which is ironic"
+
+    '''
     w1 = 'boat'
     w2 = 'frog'
     w3 = 'cat'
@@ -91,7 +101,16 @@ def wordNetSimilarityTest():
 
     print( ss1.path_similarity(ss2) )
     print( ss1.path_similarity(ss4) )
+    #time here in testing is more of a runtime bad news getter
+    # i.e. it's damn slow for our purpose
     print("Elapsed time: " + "%.02f" % (time.time() - now ) )
+    '''
+    s1 = wn.synsets(userAnswer)
+    s2 = wn.synsets(correctAnswer)
+    ss1 = s1[0]
+    ss2 = s2[0]
+    return ss1.path_similarity(ss2)
+
 
 #################################################################
 
@@ -103,10 +122,15 @@ def lemmalist(str):
             syn_set.append(item)
     return syn_set
 
-curr = time.time()
-print( lemmalist("brain") )
-print("Yeah it took " + "%.02f" % (time.time() - curr) + " seconds.")
 
+'''
+curr = time.time()
+print(lemmalist("brain"))
+print("Yeah it took " + "%.02f" % (time.time() - curr) + " seconds.")
+import sys
+sys.exit()
+print("mambo number 5")
+'''
 
 '''
 It is good practice to use the with keyword when dealing with file objects. This has the advantage that the file is
@@ -116,41 +140,96 @@ writing equivalent try-finally blocks
 Idea: to somehow take memory of last session's progress and use that logic to choose questions for this one
 '''
 
-#with open('workfile', 'r') as f:
+# with open('workfile', 'r') as f:
 #    for line in f:
 
+'''
 
-def doQuiz(questionAnswerDict):
+here is a test question and answer simple, word association to make
+fake data to test subsystems
+
+but make real questions!!!
+'''
+
+fauxQA = {
+    "MAC check": "Integrity",
+    "Authentication assumes: ": "shared",
+    'Authentication': "right",
+    "privacy": "insecure",
+    "integrity": "content",
+    "cryptanalysis": "weaknesses",
+    "confidentiality": "intended",
+    "how secure is a crypto": "effort",
+    #"breaking encryption: ": "ciphertext-only known-plaintext chosen-plaintext",
+    "Why DH instead of all RSA": "forward",
+    "Why is mono-alphabet security bad: ": "characteristics",
+    "change 1 bit in DES encrypt": "half",
+    "weakness in ECB: ": "pattern",
+    "IV should known by: ": "both"
+}
+
+
+def doQuiz(q_ad):
     '''
-    this is the main controller so to speak, although right now it's a motley of things
+    this is the main controller so to speak,
     and no logic,
     madness before method
 
-    :param questionAnswerDict:
+    :param q_ad:
     :return: None
     '''
-    for question in questionAnswerDict.keys():
+
+    datatable = []
+    for question in q_ad.keys():
         '''
         this block does 1 question
         '''
-        apprenticeIn = ""
-        QuestionAnswered = False
+
+        correctAnswer = q_ad[question]
+        userAnswer = ""
+        #QuestionAnswered = False
         questionNumber = 1
 
-        #print("pre Answer now: " + "%.02f" % now)
-        while not QuestionAnswered:
-            now = time.time()
-            print("Prompt: " + question)
-            apprenticeIn = input("A: ")
+        #while not QuestionAnswered:
+        before = time.time()
+        print("Prompt: " + question)
+        userAnswer = input("A: ")
 
-            # call a answer verify function implementing criteria here
-            if apprenticeIn == questionAnswerDict[question]:
-                print("Right " + "%.02f" % now)
+        # call a answer verify function implementing criteria here
 
-            aSecondTime = time.time()
-            print("It toook " + "%.02f" % (aSecondTime-now) + " to enter the answer")
+        after = time.time()
+        timeToAnswerQuestion = after - before
+        hamDist = hammingDistance(userAnswer, correctAnswer )
+        answerSimilarity = wordNetSimilarityTest(userAnswer, correctAnswer)
 
-if __name__=='__main__':
-    wordNetSimilarityTest()
+        closeEnoughForGovernmentWork = False
+
+        if q_ad[question] in lemmalist(userAnswer):
+            closeEnoughForGovernmentWork = True
+
+        datatable.append( [timeToAnswerQuestion, hamDist, answerSimilarity, closeEnoughForGovernmentWork] )
+    return datatable
+
+def putInQuizResultsInFile( datatable ):
+    '''
+
+    :param datatable: these are user generated quiz results to be put in  a
+     file to use later (serializing may be better
+    :return: not sure
+    '''
+
+    with open("dataPoints.txt", 'w') as ofo:
+        for dataPoint in datatable:
+            for thing in dataPoint:
+                ofo.write(str(thing) + '\t')
+            ofo.write('\n')
 
 
+if __name__ == '__main__':
+    # under here is a list of functions for the test indicator
+    '''
+    def wordNetSimilarityTest(userAnswer, correctAnswer ):
+    hammingDistance( userAnswer, correctAnswer  )
+    lemmalist("brain")
+    '''
+    putInQuizResultsInFile(doQuiz(fauxQA) )

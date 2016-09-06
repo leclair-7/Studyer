@@ -36,6 +36,7 @@ def hammingDistance(s1, s2):
     string :param s2: 
     float :return: Hamming Distance
     '''
+    s1,s2 = s1.lower(),s1.lower()
 
     baseNum = max(len(s1), len(s2))
     right, wrong = 0, 0
@@ -49,6 +50,8 @@ def hammingDistance(s1, s2):
                 wrong += 1
             else:
                 right += 1
+    if baseNum < .00001:
+        baseNum  =1
     return (right * 1.0) / baseNum
 
 

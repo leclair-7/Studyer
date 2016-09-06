@@ -1,10 +1,15 @@
 import time
-
 # qaBank = [("red","rose"),("blue","bird"),("Kimberly","sublime"),("work","deep")]
 qaBank = {"red": "rose", "blue": "bird", "Kimberly": "sublime", "work": "deep"}
 
 
 def askAndTime(dictQA):
+    '''
+    a userless function, it had good intent, programmer's an idiot mistake
+
+    :param dictQA:
+    :return:
+    '''
     listTimes = []
     que = ""
     ans = ""
