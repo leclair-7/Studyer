@@ -5,7 +5,7 @@ qaBank = {"red": "rose", "blue": "bird", "Kimberly": "sublime", "work": "deep"}
 
 def askAndTime(dictQA):
     '''
-    a userless function, it had good intent, programmer's an idiot mistake
+    in initial quiz to get timing information for another task
 
     :param dictQA:
     :return:

@@ -49,16 +49,12 @@ put question answer time in performance,
 when the user doesn't get a close answer, have a hint
 
     ideas for criteria for answer being right:
-        -quantify by weighing the criteria: sync with
-                one's confidence of mastery of material
-
-a mode where it gives you more than 1 try, "learning mode"
-and a test mode for pressure's sake
+        -quantify by weighing the criteria: sync with one's confidence of mastery of material
 
 f it  -A A
 
 REMEMBERING YOUR PAST
-take tab spaces words from a txt file and make flashcards
+use past quiz sessions for customized future sessions
 
 Memory 100 peg list helper, make it make crazy associations based on nouns not being on top 10000 english used
 but also being syntactically close to current noun and the one associated with the number
@@ -66,45 +62,13 @@ but also being syntactically close to current noun and the one associated with t
 ambiguity is an issue though
 '''
 
-questionAnswerDict = {"route flapping": "neighbors to switch to new routes and advertise them to their neighbor",
-                      "BGP Wedgie": "ability of Charlie to force a BGP session reset can allow the configuration" + \
-                                    " of Alice or Bob to transition into a stable but undesired forwarding state"}
-
-# a first step to question answering logic
-from nltk.corpus import wordnet as wn
-import time
-from hammmingDistance import *
-import timeQuestionAnswering
-
-def wordNetSimilarityTest(userAnswer, correctAnswer):
-    assert userAnswer != "", "empty user answer"
-    assert correctAnswer != "", "Empty right answer, which is ironic"
-
-    s1 = wn.synsets(userAnswer)
-    s2 = wn.synsets(correctAnswer)
-    ss1 = s1[0]
-    ss2 = s2[0]
-
-    if ss1.path_similarity(ss2) == None: return 0
-
-    return ss1.path_similarity(ss2)
-
-#################################################################
-
-def lemmalist(str):
-    syn_set = []
-    for synset in wn.synsets(str):
-        for item in synset.lemma_names():
-            syn_set.append(item)
-    return syn_set
-
-#################################################################
+from BigWordMatchingFunctions import *
 
 '''
 here is a test question and answer simple, word association to make
 fake data to test quiz answering subsystems
 
-we only used 1 word things because word similarity function blows up
+we only used 1 word answers/"values" because word similarity function blows up
 '''
 fauxQA = {
     "MAC check": "Integrity",
@@ -164,7 +128,6 @@ def doQuiz(q_ad):
 
 def putInQuizResultsInFile( datatable ):
     '''
-
     :param datatable: these are user generated quiz results to be put in  a
      file to use later (serializing may be better
     :return: not sure

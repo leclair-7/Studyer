@@ -1,12 +1,9 @@
 '''
 An implementation of hamming distance,
 Auxiliary function makes the word lengths equal
-
-
 '''
 
 import unittest
-
 
 def lengthNormalizer(s1, s2):
     '''
@@ -95,9 +92,5 @@ class TestHammingDistance(unittest.TestCase):
     def testSecondShorter(self):
         self.assertIsNotNone( hammingDistance("oiseau", "Pardonnez-vous") )
 
-
 if __name__ == '__main__':
-
-    #
     unittest.main()
-    #print ( hammingDistance("platypus", "platypuz") > hammingDistance("brick", "steve") )
