@@ -13,7 +13,7 @@ unit tests for every function, code coverage
 learn Django and put an SSH to Alderon login
 find a thesaurus for hints, like dict = {word : [synonyms] }
 learning mode and test mode and an easy switch between them
-
+once the rest of these are done put a good READ.ME or whatever is more appropriate for this repo
 
 Since I'm in school, this is an app to help me study "more effectively"
 which is another way of saying "less"
