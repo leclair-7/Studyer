@@ -31,34 +31,42 @@ def lemmalist(str):
 
 #################################################################
 
-def getNounsAndVerbs(answer):
-    text = nltk.word_tokenize(answer)
+def getNounsAndVerbs(text):
+    answer = nltk.word_tokenize(text)
     noun_list = []
     verb_list = []
+
     for i in nltk.pos_tag(answer):
         # print(i)
         if i[1] in ['NN', 'NNP', 'NNPS', 'NNS']:
             noun_list.append(i[0])
         elif i[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
             verb_list.append(i[0])
-    return (noun_list, verb_list)
+    return noun_list, verb_list
 
 def aSentenceMatchIdea(userAnswer, solution):
     n,v = getNounsAndVerbs(userAnswer)
     nSyns = [lemmalist(i) for i in n]
     vSyns = [lemmalist(i) for i in v]
 
-    numNoun = len(n)
-    numVerb = len(v)
-
-
     n_Syn,v_Syn= getNounsAndVerbs(solution)
+
     soln_nSyns = [lemmalist(i) for i in n_Syn]
     soln_vSyns = [lemmalist(i) for i in v_Syn]
 
     noun_close = 0
     verb_close = 0
 
+    from nltk.stem import WordNetLemmatizer
+    wordnet_lemmatizer = WordNetLemmatizer()
+
+    #TROUBLE SPOT !!!!!!!!!!
+    n = [wordnet_lemmatizer.lemmatize( j ) for j in n ]
+    v = [wordnet_lemmatizer.lemmatize( j ) for j in v ]
+    soln_nSyns = [wordnet_lemmatizer.lemmatize( j ) for j in soln_nSyns ]
+    soln_vSyns = [wordnet_lemmatizer.lemmatize( k ) for k in soln_vSyns ]
+
+    # END OF TROUBLE SPOT !!!!!!!!!!!!!!!!!!
     for i in n:
         if i in soln_nSyns:
             noun_close += 1
@@ -66,7 +74,10 @@ def aSentenceMatchIdea(userAnswer, solution):
         if i in soln_vSyns:
             verb_close += 1
 
-
+    endNoun = 1.0 * noun_close / (1.0 * len(n)) if len(n) > 0 else 0
+    endVerb = 1.0 * verb_close / (1.0 * len(v)) if len(v) > 0 else 0
+    print(noun_close, verb_close)
+    return [ endNoun, endVerb ]
 
 if __name__ == '__main__':
-    pass
+    print ( aSentenceMatchIdea("stones and rocks", "rocks men at the grill") )
