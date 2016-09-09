@@ -1,5 +1,7 @@
 import nltk
 from nltk.corpus import wordnet as wn
+
+from nltk.stem import WordNetLemmatizer
 import time
 from hammmingDistance import *
 import timeQuestionAnswering
@@ -44,29 +46,22 @@ def getNounsAndVerbs(text):
             verb_list.append(i[0])
     return noun_list, verb_list
 
+
 def aSentenceMatchIdea(userAnswer, solution):
-    n,v = getNounsAndVerbs(userAnswer)
-    nSyns = [lemmalist(i) for i in n]
-    vSyns = [lemmalist(i) for i in v]
+    # nouns and verbs from user, check if against
+    # a first step for a sentence matcher heuristic
+    # because language is complex
+    n, v = getNounsAndVerbs(userAnswer)
+    soln_nSyns, soln_vSyns = getNounsAndVerbs(solution)
 
-    n_Syn,v_Syn= getNounsAndVerbs(solution)
-
-    soln_nSyns = [lemmalist(i) for i in n_Syn]
-    soln_vSyns = [lemmalist(i) for i in v_Syn]
+    wordnet_lemmatizer = WordNetLemmatizer()
+    soln_nSyns = [wordnet_lemmatizer.lemmatize(j) for j in soln_nSyns]
+    soln_vSyns = [wordnet_lemmatizer.lemmatize(k) for k in soln_vSyns]
+    n = [wordnet_lemmatizer.lemmatize(i) for i in n]
+    v = [wordnet_lemmatizer.lemmatize(i) for i in v]
 
     noun_close = 0
     verb_close = 0
-
-    from nltk.stem import WordNetLemmatizer
-    wordnet_lemmatizer = WordNetLemmatizer()
-
-    #TROUBLE SPOT !!!!!!!!!!
-    n = [wordnet_lemmatizer.lemmatize( j ) for j in n ]
-    v = [wordnet_lemmatizer.lemmatize( j ) for j in v ]
-    soln_nSyns = [wordnet_lemmatizer.lemmatize( j ) for j in soln_nSyns ]
-    soln_vSyns = [wordnet_lemmatizer.lemmatize( k ) for k in soln_vSyns ]
-
-    # END OF TROUBLE SPOT !!!!!!!!!!!!!!!!!!
     for i in n:
         if i in soln_nSyns:
             noun_close += 1
@@ -76,8 +71,8 @@ def aSentenceMatchIdea(userAnswer, solution):
 
     endNoun = 1.0 * noun_close / (1.0 * len(n)) if len(n) > 0 else 0
     endVerb = 1.0 * verb_close / (1.0 * len(v)) if len(v) > 0 else 0
-    print(noun_close, verb_close)
-    return [ endNoun, endVerb ]
+
+    return [endNoun, endVerb]
 
 if __name__ == '__main__':
-    print ( aSentenceMatchIdea("stones and rocks", "rocks men at the grill") )
+    print(aSentenceMatchIdea("stones and rocks", "rocks men at the grill"))
