@@ -1,11 +1,9 @@
 import nltk
 from nltk.corpus import wordnet as wn
-
 from nltk.stem import WordNetLemmatizer
 import time
 from hammmingDistance import *
 import timeQuestionAnswering
-
 
 def wordNetSimilarityTest(userAnswer, correctAnswer):
     assert userAnswer != "", "empty user answer"
@@ -19,7 +17,6 @@ def wordNetSimilarityTest(userAnswer, correctAnswer):
     if ss1.path_similarity(ss2) == None: return 0
 
     return ss1.path_similarity(ss2)
-
 
 #################################################################
 
@@ -45,7 +42,6 @@ def getNounsAndVerbs(text):
         elif i[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
             verb_list.append(i[0])
     return noun_list, verb_list
-
 
 def aSentenceMatchIdea(userAnswer, solution):
     # nouns and verbs from user, check if against
