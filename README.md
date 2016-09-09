@@ -4,14 +4,14 @@ Studyer Readme
 ==============================================================================================================
 
 To Do List:
-*POS tag the sentence and see if any of answer's noun is in lemmalist
-*PEG 100 list implement an all numerical metrics flashcard learning
-*session by session pickling remembering, cpickle for speed, maybe do a db
-*feed it a notes file then it gives learning, diaplaying pictues on django site,
-*unit tests for every function, code coverage
-*learn Django and put an SSH to Alderon login
-*find a thesaurus for hints, like dict = {word : [synonyms] }
-*learning mode and test mode and an easy switch between them
+* POS tag the sentence and see if any of answer's noun is in lemmalist
+* PEG 100 list implement an all numerical metrics flashcard learning
+* session by session pickling remembering, cpickle for speed, maybe do a db
+* feed it a notes file then it gives learning, diaplaying pictues on django site,
+* unit tests for every function, code coverage
+* learn Django and put an SSH to Alderon login
+* find a thesaurus for hints, like dict = {word : [synonyms] }
+* learning mode and test mode and an easy switch between them
 
 Since this project is for a good time with a focus on good, the documentation
 at times has an air of irony or a lack of seriousness, etc.
@@ -45,12 +45,12 @@ when the user doesn't get a close answer, have a hint
     this is how markdown displays code!!!! :) :) :)
 
 
-##f it  *A A
+##f it  - A A
 
 ###REMEMBERING YOUR PAST
-*use past quiz sessions for customized future sessions
+* use past quiz sessions for customized future sessions
 
-*Memory 100 peg list helper, make it make crazy associations based on nouns not being on top 10000 english used
+* Memory 100 peg list helper, make it make crazy associations based on nouns not being on top 10000 english used
 but also being syntactically close to current noun and the one associated with the number
 
-*ambiguity is an issue though
+* ambiguity is an issue though
