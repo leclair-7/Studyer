@@ -1,3 +1,4 @@
+
 import time
 # qaBank = [("red","rose"),("blue","bird"),("Kimberly","sublime"),("work","deep")]
 qaBank = {"red": "rose", "blue": "bird", "Kimberly": "sublime", "work": "deep"}
