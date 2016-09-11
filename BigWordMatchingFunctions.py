@@ -1,4 +1,3 @@
-
 from config import *
 
 def wordNetSimilarityTest(userAnswer, correctAnswer):
@@ -23,6 +22,28 @@ def lemmalist(str):
             syn_set.append(item)
     return syn_set
 
+#################################################################
+
+def makeHint(text):
+    '''
+    :param text: the inputted answer to the question
+    :return: string: a sentence with nouns and verbs replaced by synonyms if available
+    '''
+    answer = nltk.word_tokenize(text)
+    tags = nltk.pos_tag(answer)
+
+    for i in range(len(tags)):
+        if tags[i][1] in ['NN', 'NNP', 'NNPS', 'NNS', 'VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
+            synonyms = lemmalist(tags[i][0])
+            for maybeDiff in synonyms:
+
+                if maybeDiff != tags[i][0]:
+                    tags[i] = (maybeDiff, tags[i][1])
+                    break
+    h = []
+    for i in tags:
+        h.append(i[0])
+    return " ".join(h)
 
 #################################################################
 
@@ -38,6 +59,20 @@ def getNounsAndVerbs(text):
         elif i[1] in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
             verb_list.append(i[0])
     return noun_list, verb_list
+
+def makeSentenceHint(phrase):
+    '''
+    a function to output a sentence with some synonyms replacing the prompt
+    for quiz hints
+    '''
+    if phrase.split() <= 1:
+        return phrase
+
+    synonyms =""
+    for i in nltk.pos_tag(phrase):
+        if i[1] in ['NN', 'NNP', 'NNPS', 'NNS', 'VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']:
+            synonyms = wn.synsets(i[0])
+
 
 def aSentenceMatchIdea(userAnswer, solution):
     # nouns and verbs from user, check if against
@@ -68,3 +103,6 @@ def aSentenceMatchIdea(userAnswer, solution):
 
 if __name__ == '__main__':
     print(aSentenceMatchIdea("stones and rocks", "rocks men at the grill"))
+
+    # random phrase with proper nouns and honest prose
+    print(makeHint("Lucas said Kimberly is sublime"))

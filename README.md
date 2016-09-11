@@ -4,12 +4,11 @@ Studyer Readme
 ==============================================================================================================
 
 To Do List:
-* POS tag the sentence and see if any of answer's noun is in lemmalist
 * PEG 100 list implement an all numerical metrics flashcard learning
 * session by session pickling remembering, cpickle for speed, maybe do a db
 * feed it a notes file then it gives learning, diaplaying pictues on django site,
 * unit tests for every function, code coverage
-* learn Django and put an SSH to Alderon login
+* learn Django and deploy on a server
 * find a thesaurus for hints, like dict = {word : [synonyms] }
 * learning mode and test mode and an easy switch between them
 
@@ -29,8 +28,7 @@ unit test modules
 this will be on a Django driven webpage
 
 ###QUESTION ANSWER HEURISTICS
-Want the neural network (seems like the best way to find optimal weights of an array of tests) to see the size of the vector and construct itself accordingly, or
-maybe do a binary search style parameter finding with a sklearn SVM..
+find a way to train a model with user data only, maybe that and a combo of aggregate will be better
 
 then presumably...
 it'll feel pretty accurate to me the user
@@ -43,7 +41,6 @@ when the user doesn't get a close answer, have a hint
     ideas for criteria for answer being right:
     quantify by weighing the criteria: sync with one's confidence of mastery of material
     this is how markdown displays code!!!! :) :) :)
-
 
 ##f it  - A A
 

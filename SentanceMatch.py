@@ -16,7 +16,6 @@ from nltk.corpus import stopwords
 import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 '''
-
 def avg_feature_vector(words, model, num_features, index2word_set):
     # function to average all words vectors in  the sentence
     featureVec = np.zeros((num_features,), dtype="float32")
