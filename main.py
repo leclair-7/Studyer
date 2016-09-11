@@ -33,10 +33,8 @@ fauxQA = {
 def doQuiz(q_ad, mode):
     '''
     this is the main controller so to speak,
-    and no logic,
-    madness before method
-
     :param q_ad:
+    :param numDictSample: number from dictionary want to sample
     :param mode: "train" or "test"
     :return: None
     '''
@@ -44,6 +42,7 @@ def doQuiz(q_ad, mode):
     numQuestions = len(q_ad)
     right =0.0
     datatable = []
+    print( "You are in " + mode + " mode.\nIf it's not train or test you ran the function wrong.")
     for question in q_ad.keys():
 
         correctAnswer = q_ad[question]
@@ -71,7 +70,11 @@ def doQuiz(q_ad, mode):
             closeEnoughForGovernmentWork = True
 
         datatable.append( [timeToAnswerQuestion, hamDist, answerSimilarity, closeEnoughForGovernmentWork] )
-    return datatable.append(right/numQuestions)
+    #train or test modes
+    if mode == "train":
+        return datatable[:-1]
+    print("test mode, your score is: %s" % (right/numQuestions))
+    return datatable
 
 def putInQuizResultsInFile( datatable ):
     '''

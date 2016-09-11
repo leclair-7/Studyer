@@ -7,7 +7,7 @@ To Implement:
 
 this is to generate flash cards
 '''
-
+from config import *
 
 def fileDecider(filename):
     '''
@@ -35,10 +35,11 @@ def fileDecider(filename):
                 elif i == '\n':
                     # term with paragraph under it
                     return 3
+                elif i == '.':
+                    return 4
                 else:
                     continue
             print(line)
-
 
 def everyOtherInListToDict(h):
     '''
@@ -58,7 +59,6 @@ def everyOtherInListToDict(h):
             break
     return aDict
 
-
 def termThenTab(filename, selectorNum):
     '''
 	@param filename - name of the class Notes file
@@ -75,12 +75,12 @@ def termThenTab(filename, selectorNum):
         notesDelimiter = ':'
     elif selectorNum == 3:
         notesDelimiter = '\n'
-    print(selectorNum)
+    elif selectorNum == 4:
+        notesDelimiter = '.'
 
     if selectorNum == 3:
         with open(filename, 'r') as myfile:
             h = myfile.readlines()
-
         return everyOtherInListToDict(h)
 
     with open(filename, 'r') as ofo:
@@ -89,13 +89,20 @@ def termThenTab(filename, selectorNum):
                 continue
             else:
                 tabpos = line.find(notesDelimiter)
-                aDict[line[:tabpos]] = line[tabpos + 1:].strip()
+                if selectorNum is 4:
+                    aDict[ int(line[:tabpos])] = line[tabpos + 1:].strip()
+                else:
+                    aDict[line[:tabpos]] = line[tabpos + 1:].strip()
     return aDict
-
 
 def reverseTheDictionary(dictionary):
     return {value: key for key, value in dictionary.items()}
 
+def sampleOfDictionary(theDict, numDictSample):
+    # Suppose we want to learn 20 at a time?!
+    if numDictSample > len(theDict):
+        numDictSample = len(theDict)
+    return {x: theDict[x] for x in random.sample(list(theDict), numDictSample)}
 
 if __name__ == '__main__':
     # print( fileDecider( "tabspaced.txt") )
@@ -104,6 +111,9 @@ if __name__ == '__main__':
     # s1 = "and	then......then..."
 
     # print(termThenTab("tabspaced.txt", fileDecider("tabspaced.txt")) )
-    print(termThenTab("termparagraphTEST.txt", fileDecider("termparagraphTEST.txt")))
+    #print(termThenTab("termparagraphTEST.txt", fileDecider("termparagraphTEST.txt")))
     # print(termThenTab("termdashTEST.txt", fileDecider("termdashTEST.txt")) )
     # print(termThenTab("colonthendefTEST.txt", fileDecider("colonthendefTEST.txt")) )
+    #print(termThenTab("Peg100.txt", fileDecider("Peg100.txt")))
+
+    theDict = termThenTab("Peg100.txt", fileDecider("Peg100.txt"))

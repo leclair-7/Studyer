@@ -4,13 +4,11 @@ Studyer Readme
 ==============================================================================================================
 
 To Do List:
-* PEG 100 list implement an all numerical metrics flashcard learning
+* pressure for test mode
 * session by session pickling remembering, cpickle for speed, maybe do a db
-* feed it a notes file then it gives learning, diaplaying pictues on django site,
 * unit tests for every function, code coverage
-* learn Django and deploy on a server
-* find a thesaurus for hints, like dict = {word : [synonyms] }
-* learning mode and test mode and an easy switch between them
+* diaplaying pictues on django site,
+* learn Django and deploy on a servers
 
 Since this project is for a good time with a focus on good, the documentation
 at times has an air of irony or a lack of seriousness, etc.
