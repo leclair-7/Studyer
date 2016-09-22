@@ -16,6 +16,10 @@ from nltk.corpus import stopwords
 import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 '''
+
+import warnings
+warnings.filterwarnings("ignore")
+
 def avg_feature_vector(words, model, num_features, index2word_set):
     # function to average all words vectors in  the sentence
     featureVec = np.zeros((num_features,), dtype="float32")
@@ -40,7 +44,7 @@ def getSentenceSimilarity(sentence_1, sentence_2):
     if os.path.exists("The_Brown_Model_For_Studyer"):
         #dictionary = corpora.Dictionary.load('deerwester.dict')
         model_w2v = gensim.models.Word2Vec.load('The_Brown_Model_For_Studyer')
-        print("Used previously calculated model!!")
+        #print("Used previously calculated model!!")
     else:
         sentences = brown.sents()
         model_w2v = gensim.models.Word2Vec(sentences, min_count=1)

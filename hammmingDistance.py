@@ -53,7 +53,8 @@ def hammingDistance(s1, s2):
     if len(s1) != len(s2):
         s1, s2 = lengthNormalizer(s1, s2)
     assert len(s1) is len(s2), "word lengths don't match, dumbass"
-    print(s1, s2)
+    #this one gets in production which is effin annoying
+    #print(s1, s2)
 
     if len(s1) == len(s2) and len(s1) > 0:
         for i in range(len(s1)):
