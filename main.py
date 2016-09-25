@@ -59,35 +59,30 @@ for i in makeItList(fauxQA):
 iterate through Questions
 difference between straight dictionary and these things
 '''
-def doQuiz(q_ad, mode):
+def doQuiz( questionSection ):
     '''
     this is the main controller so to speak,
-    :param q_ad:
-    :param numDictSample: number from dictionary want to sample
-    :param mode: "train" or "test"
-    :return: None
+    :param questionSection: Question objects for the Student's question
+    :return: dataset with questions from user taking the quiz
     '''
-    mode = mode.lower()
-    numQuestions = len(q_ad)
+    #mode = mode.lower()
+    numQuestions = len(questionSection)
     right =0.0
     datatable = []
-    print( "You are in " + mode + " mode.\nIf you put something other than train or test you ran the function wrong.")
-    print("However, test will test, and train or any other crap you inputted will train")
-    for question in q_ad.keys():
-        correctAnswer = q_ad[question]
+    #print( "You are in " + mode + " mode.\nIf you put something other than train or test you ran the function wrong.")
+    #print("However, test will test, and train or any other crap you inputted will train")
+    for que in questionSection:
         userAnswer = ""
         questionNumber = 1
 
         #while not QuestionAnswered:
         before = time.time()
-        print("Prompt, " + question)
+        print("Prompt, " + que.question)
         userAnswer = input("Yo Answer: ")
-        userAnswer,correctAnswer = userAnswer.lower(), correctAnswer.lower()
-        #print("Your answer: ", userAnswer)
-        # call a answer verify function implementing criteria here
 
         after = time.time()
         answerTime = after - before
+        userAnswer,correctAnswer = userAnswer.lower(), que.answer.lower()
         hamDist = hammingDistance(userAnswer, correctAnswer )
 
         #answerSimilarity = wordNetSimilarityTest(userAnswer, correctAnswer)
@@ -104,8 +99,11 @@ def doQuiz(q_ad, mode):
         if userAnswer == correctAnswer: right += 1.0
         elif answerSimilarity > .9: right += 1.0
 
-        datatable.append( [answerTime,answerSimilarity, hamDist, closeEnoughForGovernmentWork] )
-        print ( datatable )
+        datatable.append( [que.number, answerTime,answerSimilarity, hamDist, closeEnoughForGovernmentWork, time.time() ] )
+        #print( datatable )
+        '''
+        since we put que.number appending on the list we just need some matching thing then a sort at the end before we pickle it
+        '''
     #train or test modes
 
     score = (right/numQuestions)
@@ -156,6 +154,17 @@ def putQuizResultsInDbForUser(datatable):
     # Just be sure any changes have been committed or they will be lost.
     conn.close()
 
+
+
+def getZeList(filename):
+    if os.path.isfile(filename):
+        fileObj = open(filename, 'rb')
+        r = pickle.load(fileObj)
+        fileObj.close()
+        return r
+    else:
+        return []
+
 if __name__ == '__main__':
     '''
     #Test indicators
@@ -164,7 +173,11 @@ if __name__ == '__main__':
     lemmalist("brain")
     '''
 
-    dt = doQuiz(fauxQA, "test")[:-1]
-    putInQuizResultsInFile( dt )
-    #gets an exception from nan
-    #putQuizResultsInDbForUser( dt )
+    dt = doQuiz( makeItList(fauxQA) )
+    filename = "dataset.pickle"
+    theList = getZeList(filename)
+    theList.append( dt)
+    fileObj = open(filename, 'wb')
+    pickle.dump(theList, fileObj)
+    fileObj.close()
+    #print(theList)

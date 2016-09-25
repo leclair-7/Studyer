@@ -1,20 +1,18 @@
-Studyer Readme
+###Studyer Readme
 
-##Since I'm in school, this is an app to help me study "more effectively" which is another way of saying "less"
+##Since I'm in school, this is an app to help me study "more effectively" which is another way of saying "less".
 ==============================================================================================================
 
 To Do List:
+* test optimal time frequency between asking questions, change probability of Q being asked accordingly
+* timestamp each time a question is answered
+* change probability its asked based on elapsed time
 * pressure for test mode
-* session by session pickling remembering, cpickle for speed, maybe do a db
 * unit tests for every function, code coverage
-* diaplaying pictues on django site,
-* learn Django and deploy on a servers
+* displaying pictures on django site,
 
 Since this project is for a good time with a focus on good, the documentation
-at times has an air of irony or a lack of seriousness, etc.
-
-For now this is a semi working app with set of working code parts to be combined once I learn how to use Django;
-I may decide not to use it.
+at times has an air of irony, a lack of seriousness, etc.
 
 ###Features To Do:
 [all of them!!]
@@ -40,7 +38,7 @@ when the user doesn't get a close answer, have a hint
     quantify by weighing the criteria: sync with one's confidence of mastery of material
     this is how markdown displays code!!!! :) :) :)
 
-##f it  - A A
+##"f it"  - A A
 
 ###REMEMBERING YOUR PAST
 * use past quiz sessions for customized future sessions
@@ -48,4 +46,4 @@ when the user doesn't get a close answer, have a hint
 * Memory 100 peg list helper, make it make crazy associations based on nouns not being on top 10000 english used
 but also being syntactically close to current noun and the one associated with the number
 
-* ambiguity is an issue though
+* for hints language ambiguity is an issue

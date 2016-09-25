@@ -33,9 +33,7 @@ fileObj.close()
 
 
 import random
-
 l = [('a', 1), ('b', 5), ('c', 5)]
-
 
 def randitem(l):
     # Make the probabilities add up to 1, preserving ratios
