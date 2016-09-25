@@ -16,12 +16,33 @@ fauxQA = {
     "MAC check": "Integrity",
     "Authentication assumes: ": "shared",
     'Authentication': "right",
-    "privacy": "insecure",
-
 }
 
-''' because self testing the fauxQA was taking too damn long
 
+class Question:
+    def __init__(self, questionNumber, question, answer, weightForQuestionSelector):
+        self.number = questionNumber
+        self.question = question
+        self.answer = answer
+        self.weightForQuestionSelector = weightForQuestionSelector
+
+
+def makeItList(dictionary):
+    h = []
+    questionNumber = 1
+    weightForQuestionSelector = 1
+    for i in dictionary.keys():
+        h.append(Question(questionNumber, i, dictionary[i], weightForQuestionSelector))
+        questionNumber += 1
+    return h
+
+'''
+for i in makeItList(fauxQA):
+    print(i.question)
+'''
+
+''' because self testing the fauxQA was taking too damn long
+    "privacy": "insecure",
     "integrity": "content",
     "cryptanalysis": "weaknesses in crypto protocol",
     "confidentiality": "intended",
@@ -34,7 +55,10 @@ fauxQA = {
     "IV should known by: ": "both"
 '''
 
-
+'''
+iterate through Questions
+difference between straight dictionary and these things
+'''
 def doQuiz(q_ad, mode):
     '''
     this is the main controller so to speak,
@@ -50,7 +74,6 @@ def doQuiz(q_ad, mode):
     print( "You are in " + mode + " mode.\nIf you put something other than train or test you ran the function wrong.")
     print("However, test will test, and train or any other crap you inputted will train")
     for question in q_ad.keys():
-
         correctAnswer = q_ad[question]
         userAnswer = ""
         questionNumber = 1
@@ -58,35 +81,43 @@ def doQuiz(q_ad, mode):
         #while not QuestionAnswered:
         before = time.time()
         print("Prompt, " + question)
-        userAnswer = input("A: ")
+        userAnswer = input("Yo Answer: ")
         userAnswer,correctAnswer = userAnswer.lower(), correctAnswer.lower()
         #print("Your answer: ", userAnswer)
         # call a answer verify function implementing criteria here
-        if userAnswer == correctAnswer: right += 1.0
+
         after = time.time()
-        timeToAnswerQuestion = after - before
+        answerTime = after - before
         hamDist = hammingDistance(userAnswer, correctAnswer )
 
         #answerSimilarity = wordNetSimilarityTest(userAnswer, correctAnswer)
+        # higher score based on how close the sentence is to the correct answer
         answerSimilarity = getSentenceSimilarity(userAnswer, correctAnswer)
-
-        '''
-        what is that var below for???
-        '''
         closeEnoughForGovernmentWork = False
-
+        '''
         if q_ad[question] in lemmalist(userAnswer):
             closeEnoughForGovernmentWork = True
+        '''
+        if answerSimilarity > .80:
+            closeEnoughForGovernmentWork = True
 
-        datatable.append( [timeToAnswerQuestion, hamDist, answerSimilarity, closeEnoughForGovernmentWork] )
+        if userAnswer == correctAnswer: right += 1.0
+        elif answerSimilarity > .9: right += 1.0
+
+        datatable.append( [answerTime,answerSimilarity, hamDist, closeEnoughForGovernmentWork] )
+        print ( datatable )
     #train or test modes
-    if mode != "test":
-        return datatable[:-1]
-    print("Your score is: %s" % (right/numQuestions))
+
+    score = (right/numQuestions)
+    print("Your score is: %s" % score,end="")
+    if score < 40:
+        print("; You're a fucking idiot")
     return datatable
 
 def putInQuizResultsInFile( datatable ):
     '''
+    This function sucks balls.
+
     :param datatable: these are user generated quiz results to be put in  a
      file to use later (serializing may be better
     :return: not sure
@@ -100,6 +131,9 @@ def putInQuizResultsInFile( datatable ):
 
 def putQuizResultsInDbForUser(datatable):
     import sqlite3
+    if os.path.isfile('UserQuizHist.db'):
+        return False
+
     conn = sqlite3.connect('UserQuizHist.db')
     c = conn.cursor()
 
@@ -118,11 +152,9 @@ def putQuizResultsInDbForUser(datatable):
 
     # Save (commit) the changes
     conn.commit()
-
     # We can also close the connection if we are done with it.
     # Just be sure any changes have been committed or they will be lost.
     conn.close()
-
 
 if __name__ == '__main__':
     '''
