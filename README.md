@@ -4,18 +4,30 @@
 ==============================================================================================================
 
 To Do List:
+* link the amount of times Student has answered the question with likelihood it is asked 
 * test optimal time frequency between asking questions, change probability of Q being asked accordingly
 * timestamp each time a question is answered
 * change probability its asked based on elapsed time
-* pressure for test mode
+* pressure for test mode, have a clock and a buzz
 * unit tests for every function, code coverage
 * displaying pictures on django site,
+
+Date timestamp control functions to maybe use
+	below is how to see the timestamp
+	time.asctime( time.localtime(time.time() ) )
+	delta.days, delta.seconds, delta.microseconds
+	str(timedeltaobject)
+	to get elapsed time from datetime, may be the better option
+	s = datetime.datetime.now(), t = datetime.datetime.now()
+	t-s will be a timedelta object
 
 Since this project is for a good time with a focus on good, the documentation
 at times has an air of irony, a lack of seriousness, etc.
 
 ###Features To Do:
-[all of them!!]
+We realize that the time taken for answering a question also includes some 
+functions running that are heavy on the computation front, however since it's consistant
+improvement of the user's knowledge will still be reflected
 
 ###TESTING
 unit test modules
@@ -38,7 +50,8 @@ when the user doesn't get a close answer, have a hint
     quantify by weighing the criteria: sync with one's confidence of mastery of material
     this is how markdown displays code!!!! :) :) :)
 
-##"f it"  - A A
+## "f it"  - B A
+## "I heard that pause" - B A
 
 ###REMEMBERING YOUR PAST
 * use past quiz sessions for customized future sessions

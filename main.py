@@ -13,9 +13,9 @@ we only used 1 word answers/"values" because word similarity function blows up
 from config import *
 
 fauxQA = {
-    "MAC check": "Integrity",
-    "Authentication assumes: ": "shared",
-    'Authentication': "right",
+    "submittal":"another person given decision",
+    "ball-in-court":"who has decision",
+
 }
 
 
@@ -36,12 +36,10 @@ def makeItList(dictionary):
         questionNumber += 1
     return h
 
-'''
-for i in makeItList(fauxQA):
-    print(i.question)
-'''
-
 ''' because self testing the fauxQA was taking too damn long
+    "MAC check": "Integrity",
+    "Authentication assumes: ": "shared",
+    'Authentication': "right",
     "privacy": "insecure",
     "integrity": "content",
     "cryptanalysis": "weaknesses in crypto protocol",
@@ -65,12 +63,10 @@ def doQuiz( questionSection ):
     :param questionSection: Question objects for the Student's question
     :return: dataset with questions from user taking the quiz
     '''
-    #mode = mode.lower()
     numQuestions = len(questionSection)
     right =0.0
     datatable = []
-    #print( "You are in " + mode + " mode.\nIf you put something other than train or test you ran the function wrong.")
-    #print("However, test will test, and train or any other crap you inputted will train")
+
     for que in questionSection:
         userAnswer = ""
         questionNumber = 1
@@ -80,8 +76,6 @@ def doQuiz( questionSection ):
         print("Prompt, " + que.question)
         userAnswer = input("Yo Answer: ")
 
-        after = time.time()
-        answerTime = after - before
         userAnswer,correctAnswer = userAnswer.lower(), que.answer.lower()
         hamDist = hammingDistance(userAnswer, correctAnswer )
 
@@ -95,12 +89,28 @@ def doQuiz( questionSection ):
         '''
         if answerSimilarity > .80:
             closeEnoughForGovernmentWork = True
+        trainMode = False
+        if trainMode and answerSimilarity < .8:
+            while answerSimilarity < .8:
+                '''
+                make the user answer until he/she knows it.
+                for example, B A, is a fan of mastery learning
+                '''
+                print("Prompt, " + que.question)
+                userAnswer = input("Yo Answer: ")
+                answerSimilarity = getSentenceSimilarity(userAnswer, correctAnswer)
 
-        if userAnswer == correctAnswer: right += 1.0
+        if userAnswer == correctAnswer:
+            right += 1.0
+            continue
         elif answerSimilarity > .9: right += 1.0
+        after = time.time()
+        answerTime = after - before
+        finishingDateTime = datetime.datetime.now()
+        incrementNumberOfTimesAnsweredThisQuestion = 1
+        datatable.append([que.number, answerTime, answerSimilarity, hamDist, closeEnoughForGovernmentWork,
+                           round(time.time(), 2), finishingDateTime, incrementNumberOfTimesAnsweredThisQuestion])
 
-        datatable.append( [que.number, answerTime,answerSimilarity, hamDist, closeEnoughForGovernmentWork, time.time() ] )
-        #print( datatable )
         '''
         since we put que.number appending on the list we just need some matching thing then a sort at the end before we pickle it
         '''
@@ -108,8 +118,10 @@ def doQuiz( questionSection ):
 
     score = (right/numQuestions)
     print("Your score is: %s" % score,end="")
-    if score < 40:
+    if score < .40:
         print("; You're a fucking idiot")
+    else:
+        print()
     return datatable
 
 def putInQuizResultsInFile( datatable ):
@@ -127,34 +139,6 @@ def putInQuizResultsInFile( datatable ):
                 ofo.write(str(thing) + '\t')
             ofo.write('\n')
 
-def putQuizResultsInDbForUser(datatable):
-    import sqlite3
-    if os.path.isfile('UserQuizHist.db'):
-        return False
-
-    conn = sqlite3.connect('UserQuizHist.db')
-    c = conn.cursor()
-
-    c.execute('''CREATE TABLE UserHistory
-                 (timeToAnsQuestion REAL, HammDist REAL, SentenceSimilarity REAL, CloseEnough INTEGER)''')
-
-    for i in datatable:
-        if i[3] == True:
-            c.execute("INSERT INTO UserHistory VALUES ( "+str(i[0]) + " ," +
-                                                       str(i[1]) + " , " + str( i[2]) +
-                                                        ", " + '1' + ')' )
-        else:
-            c.execute("INSERT INTO UserHistory VALUES ( " + str(i[0]) + " ," +
-                      str(i[1]) + " , " + str(i[2]) +
-                      ", " + '0' + ')')
-
-    # Save (commit) the changes
-    conn.commit()
-    # We can also close the connection if we are done with it.
-    # Just be sure any changes have been committed or they will be lost.
-    conn.close()
-
-
 
 def getZeList(filename):
     if os.path.isfile(filename):
@@ -165,6 +149,27 @@ def getZeList(filename):
     else:
         return []
 
+
+def randitem(l):
+    # Make the probabilities add up to 1, preserving ratios
+    '''
+    l = [('a', 1), ('b', 5), ('c', 5)]
+    :param l: a list of tuples
+    :return: the output is a random selection based on the number associated ith each number
+    higher with respect to the rest of the numbers means it's more likely to get picked
+    '''
+    s = sum([b for (a, b) in l])
+    l2 = []
+    for (a, b) in l:
+        l2.append((a, b / s))
+    r = random.random()
+    for (a, b) in l2:
+        if r < b:
+            return a
+        else:
+            r -= b
+
+
 if __name__ == '__main__':
     '''
     #Test indicators
@@ -174,10 +179,28 @@ if __name__ == '__main__':
     '''
 
     dt = doQuiz( makeItList(fauxQA) )
-    filename = "dataset.pickle"
+    filename = "dataset5.pickle"
     theList = getZeList(filename)
-    theList.append( dt)
+    theList.append( dt )
     fileObj = open(filename, 'wb')
     pickle.dump(theList, fileObj)
     fileObj.close()
     #print(theList)
+    newPara = []
+
+    anotherFileObject = open(filename, 'rb')
+    for i in pickle.load(anotherFileObject):
+        for j in i:
+            newPara.append((j[0], j[-1]))
+
+    h = sorted(newPara, key=lambda tup: tup[0])
+    #print(sorted_by_second)
+    #a probability table on which question for the quiz function to base its likelihood of asking a question on
+    t = [0] * h[-1][0]
+    for i in h:
+        t[i[0] - 1] += 1
+
+    newLista = [0] * len(t)
+    for i in range(len(t)):
+        newLista[i] = (i + 1, t[i])
+    print(newLista)

@@ -2,8 +2,9 @@
 '''
 Sentence Matcher function
 
-
-
+this functionality is in a way, the big brains behind the app
+similar sentences will get a higher score than dissimilar sentences
+beyond a certain point, we call the answer correct
 '''
 import gensim
 from gensim import corpora

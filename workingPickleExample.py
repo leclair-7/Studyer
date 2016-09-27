@@ -4,15 +4,12 @@ import pickle, os
 Things stuff in this file does:
     - get past data from a list
     - update probabilities of the questions being asked
-    - make the
+    - devise a way for the probability the question is asked to be changed based on some not yet known criteria
 
-try to load pickle
-every time we run the proram the pickle thing loads the dataset
-appends and repickles
+pickles/loads data, more importantly, it works
 '''
 twoList = [[1, 2, 3, 4], [5, 34, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
-filename = "dataset.pickle"
-
+filename = "dataset3.pickle"
 
 def getZeList(filename):
     if os.path.isfile(filename):
@@ -25,8 +22,7 @@ def getZeList(filename):
 
 
 theList = getZeList(filename)
-theList.append(["damn thing appends haha"])
-
+theList.append([90,91,92,47])
 fileObj = open(filename, 'wb')
 pickle.dump(theList, fileObj)
 fileObj.close()
@@ -52,12 +48,19 @@ def randitem(l):
 '''
 res = {'a': 0, 'b': 0, 'c': 0}
 for i in range(10000):
+    #in the end how we'll pick questions to present to the Student
     res[randitem(l)] += 1
-# the evidence
+# the evidence that this method works
 print('a: %s (%s%%)' % (res['a'], res['a'] / 100))
 print('b: %s (%s%%)' % (res['b'], res['b'] / 100))
 print('c: %s (%s%%)' % (res['c'], res['c'] / 100))
 '''
 if __name__ == '__main__':
     anotherFileObject = open(filename, 'rb')
-    print(pickle.load(anotherFileObject))
+
+    newPara = []
+    for i in pickle.load(anotherFileObject):
+        newPara.append( (i[0],i[-1]) )
+    print(newPara)
+
+
