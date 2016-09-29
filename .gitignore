@@ -1,4 +1,5 @@
 
 
 *.idea
+*.pickle
 *__pycache__
