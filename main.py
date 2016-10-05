@@ -7,14 +7,15 @@ Started 8/29/16
 here is a test question and answer simple, word association to make
 fake data to test quiz answering subsystems
 
-we only used 1 word answers/"values" because word similarity function blows up
 '''
 
 from config import *
 
 fauxQA = {
     "submittal":"another person given decision",
+    "transmittal":"records documents or required materials",
     "ball-in-court":"who has decision",
+    "disposition":"person's inherent qualities of mind and character",
 
 }
 
@@ -53,10 +54,6 @@ def makeItList(dictionary):
     "IV should known by: ": "both"
 '''
 
-'''
-iterate through Questions
-difference between straight dictionary and these things
-'''
 def doQuiz( questionSection ):
     '''
     this is the main controller so to speak,
@@ -91,7 +88,13 @@ def doQuiz( questionSection ):
             closeEnoughForGovernmentWork = True
         trainMode = False
         if trainMode and answerSimilarity < .8:
+            numTimesWrong =0
             while answerSimilarity < .8:
+                numTimesWrong += 1
+                if numTimesWrong > 4:
+                    print("The answer is: " + correctAnswer)
+                    numTimesWrong = 0
+                    print("maybe make an association in your memory that you relate to encode it better")
                 '''
                 make the user answer until he/she knows it.
                 for example, B A, is a fan of mastery learning
@@ -179,7 +182,7 @@ if __name__ == '__main__':
     '''
 
     dt = doQuiz( makeItList(fauxQA) )
-    filename = "dataset5.pickle"
+    filename = "dataset6.pickle"
     theList = getZeList(filename)
     theList.append( dt )
     fileObj = open(filename, 'wb')
@@ -189,7 +192,11 @@ if __name__ == '__main__':
     newPara = []
 
     anotherFileObject = open(filename, 'rb')
-    for i in pickle.load(anotherFileObject):
+    currStudentData = pickle.load(anotherFileObject)
+    print("Hello dudes\n")
+    print( currStudentData)
+    print()
+    for i in currStudentData:
         for j in i:
             newPara.append((j[0], j[-1]))
 

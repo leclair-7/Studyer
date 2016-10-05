@@ -1,28 +1,34 @@
 ###Studyer Readme
 
 ##Since I'm in school, this is an app to help me study "more effectively" which is another way of saying "less".
+
+##The documentation is for my friends to read and for me to use.
 ==============================================================================================================
+#Since this project is for a good time with a focus on good, the documentation at times has an air of irony, a lack of seriousness, etc.
 
 To Do List:
+* get on a big screen with a big (visual) debugger to implement those heuristics
+* found some participants to evaluate anser heuristics, just need a quiz/tracking backend/etc./etc./etc...
+* put on a website
+* with web stuff - add pictures - sleek UI
+* password and profile on the site
+* option for peg100 learning (need another pickle file for the user
+* design a better inter session data storage technique [ would a real DB be useful??, nonsense ] 
+* module for link technique learning - directions examples and such
+* put options if they want to stop studying, save progress and go on
 * link the amount of times Student has answered the question with likelihood it is asked 
-* test optimal time frequency between asking questions, change probability of Q being asked accordingly
-* timestamp each time a question is answered
-* change probability its asked based on elapsed time
-* pressure for test mode, have a clock and a buzz
 * unit tests for every function, code coverage
 * displaying pictures on django site,
 
-Date timestamp control functions to maybe use
-	below is how to see the timestamp
-	time.asctime( time.localtime(time.time() ) )
-	delta.days, delta.seconds, delta.microseconds
-	str(timedeltaobject)
-	to get elapsed time from datetime, may be the better option
-	s = datetime.datetime.now(), t = datetime.datetime.now()
-	t-s will be a timedelta object
+Date timestamp control functions to maybe use:
+Below is how to see the timestamp in various ways (this was surprisingly tricky to find/figure out)
 
-Since this project is for a good time with a focus on good, the documentation
-at times has an air of irony, a lack of seriousness, etc.
+    time.asctime( time.localtime(time.time() ) )
+    delta.days, delta.seconds, delta.microseconds
+    str(timedeltaobject)
+    to get elapsed time from datetime, may be the better option
+    s = datetime.datetime.now(), t = datetime.datetime.now()
+    t-s will be a timedelta object
 
 ###Features To Do:
 We realize that the time taken for answering a question also includes some 
@@ -59,4 +65,4 @@ when the user doesn't get a close answer, have a hint
 * Memory 100 peg list helper, make it make crazy associations based on nouns not being on top 10000 english used
 but also being syntactically close to current noun and the one associated with the number
 
-* for hints language ambiguity is an issue
+* for hints language ambiguity is an issue...
