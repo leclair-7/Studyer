@@ -1,10 +1,9 @@
-###Studyer Readme
+##Studyer Readme
 
-##Since I'm in school, this is an app to help me study "more effectively" which is another way of saying "less".
+###Since I'm in school, this is an app to help me study "more effectively" which is another way of saying "less".
 
-##The documentation is for my friends to read and for me to use.
+####Since this project is for a good time with a focus on good, the documentation at times has an air of irony, a lack of seriousness, etc.
 ==============================================================================================================
-#Since this project is for a good time with a focus on good, the documentation at times has an air of irony, a lack of seriousness, etc.
 
 To Do List:
 * get on a big screen with a big (visual) debugger to implement those heuristics
