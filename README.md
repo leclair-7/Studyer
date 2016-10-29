@@ -64,4 +64,4 @@ when the user doesn't get a close answer, have a hint
 * Memory 100 peg list helper, make it make crazy associations based on nouns not being on top 10000 english used
 but also being syntactically close to current noun and the one associated with the number
 
-* for hints language ambiguity is an issue...
+* for hints language ambiguity is an issue...# LearnBranch
